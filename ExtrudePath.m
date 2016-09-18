@@ -9,13 +9,9 @@ classdef ExtrudePath < dmodel.Node
 %   Path                function f(p,t) returning row vectors [x y z]
 %   X                   function f(p) returning x coords of cross-section
 %   Y                   function f(p) returning y coords of cross-section
-%   U                   function f(p,t) returning 3-vectors along "x"
-%   V                   function f(p,t) returning 3-vectors along "y"
-%   T                   values of t in [0 1]
-%   
-% I consider the design vis-a-vis "T to be sort of unnecessarily
-% complicated.  Probably I should just have the Path function return the
-% actual knots I want for the structure, using interpolation if I want it.
+%   U                   function f(p) returning 3-vectors along "x"
+%   V                   function f(p) returning 3-vectors along "y"
+%   Closed              if true, makes an oroborus
     
     properties
         permittivity = 'none';
@@ -26,7 +22,8 @@ classdef ExtrudePath < dmodel.Node
         fwdFunc = [];
         uFunc = [];    % map [0 1] to [ux uy uz]
         vFunc = [];
-        %t = [];
+        isClosed = false;
+        
     end
     
     methods
@@ -39,6 +36,7 @@ classdef ExtrudePath < dmodel.Node
             X.Path = [];
             X.U = [];
             X.V = [];
+            X.Closed = false;
             X = parseargs(X, varargin{:});
             
             if ~isa(X.X, 'function_handle')
@@ -68,6 +66,7 @@ classdef ExtrudePath < dmodel.Node
             obj.pathFunc = X.Path;
             obj.uFunc = X.U;
             obj.vFunc = X.V;
+            obj.isClosed = X.Closed;
         end
         
         function [xBot yBot tris] = bottomFace(obj, params)
@@ -103,9 +102,13 @@ classdef ExtrudePath < dmodel.Node
             v3 = v0 + numEdges;
 
             ringFaces = [v0' v1' v2'; v0' v2' v3'];
-
-            numEndFaces = size(tris, 1);
-            allFaces = zeros(numEdges*2*numRings + 2*numEndFaces, 3);
+            
+            if obj.isClosed
+                allFaces = zeros(numEdges*2*(numRings+1), 3);
+            else
+                numEndFaces = size(tris, 1);
+                allFaces = zeros(numEdges*2*numRings + 2*numEndFaces, 3);
+            end
 
             facesPerRing = 2*numEdges;
             for rr = 1:numRings
@@ -114,10 +117,17 @@ classdef ExtrudePath < dmodel.Node
             end
 
             % Add end faces.
-
-            allFaces(numRings*facesPerRing + (1:numEndFaces), :) = fliplr(tris);
-            allFaces(numRings*facesPerRing + numEndFaces + (1:numEndFaces), :) = ...
-                tris + numRings*numEdges;
+            
+            if obj.isClosed
+                rr = numRings+1;
+                allFaces( (rr-1)*facesPerRing + (1:facesPerRing), :) = ...
+                    [v0' + (rr-1)*numEdges, v1' + (rr-1)*numEdges, v1'; ...
+                    v0' + (rr-1)*numEdges, v1', v0'];
+            else
+                allFaces(numRings*facesPerRing + (1:numEndFaces), :) = fliplr(tris);
+                allFaces(numRings*facesPerRing + numEndFaces + (1:numEndFaces), :) = ...
+                    tris + numRings*numEdges;
+            end
             
         end
         

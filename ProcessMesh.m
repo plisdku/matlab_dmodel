@@ -1,4 +1,5 @@
 classdef ProcessMesh < dmodel.Node
+% ProcessMesh  Apply simplifications and subdivisions to a mesh
     
     properties
         childNode = [];
@@ -12,11 +13,11 @@ classdef ProcessMesh < dmodel.Node
     
     methods
         
+        function obj = ProcessMesh(child, creases, refineVertices, varargin)
         % ProcessMesh(childMesh, creases, refineVertices)
         % ProcessMesh(childMesh, creases, refineVertices, ...
         %   'Simplify', costFn, 'Subdivide', 'Subdivide', ...
         %   'Simplify', ...)
-        function obj = ProcessMesh(child, creases, refineVertices, varargin)
             obj.childNode = child;
             obj.creases = creases;
             obj.refineVertices = refineVertices;
