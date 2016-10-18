@@ -60,19 +60,19 @@ classdef Combine < dmodel.Node
             % 3.  Report an error if the child meshes do not all have the
             % same permittivity and permeability.
             
-            for cc = 1:length(obj.children)
-                childMeshes = obj.children{cc}.meshes(params);
-                
-                for mm = 1:length(childMeshes)
-                    if ~strcmp(childMeshes{mm}.permittivity, ourPermittivity)
-                        error('Not all child meshes have same permittivity');
-                    end
-                    
-                    if ~strcmp(childMeshes{mm}.permeability, ourPermeability)
-                        error('Not all child meshes have same permeability');
-                    end
-                end
-            end
+%             for cc = 1:length(obj.children)
+%                 childMeshes = obj.children{cc}.meshes(params);
+%                 
+%                 for mm = 1:length(childMeshes)
+%                     if ~strcmp(childMeshes{mm}.permittivity, ourPermittivity)
+%                         error('Not all child meshes have same permittivity');
+%                     end
+%                     
+%                     if ~strcmp(childMeshes{mm}.permeability, ourPermeability)
+%                         error('Not all child meshes have same permeability');
+%                     end
+%                 end
+%             end
             
             % 4. Concatenate all the vertices, faces and jacobians.
             allVertices = zeros(numVerts*3, 1);
