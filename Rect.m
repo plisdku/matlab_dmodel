@@ -60,8 +60,7 @@ classdef Rect < dmodel.Node
                 row = row + 3;
             end,end,end
             
-            m = { Mesh(myVerts, faces, myJacobian, obj.permittivity,...
-                obj.permeability) };
+            m = { Mesh(myVerts, faces, myJacobian) };
             
         end
         
