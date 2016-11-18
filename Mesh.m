@@ -4,15 +4,13 @@ classdef Mesh < handle
     properties
         vertices
         faces
-        permittivity
-        permeability
         jacobian
     end
     
     methods
         
-        function obj = Mesh(v, f, j, permittivity, permeability)
-            % mesh = Mesh(vertices, faces, Jacobian, epsilon, mu)
+        function obj = Mesh(v, f, j)
+            % mesh = Mesh(vertices, faces, Jacobian)
             % 
             if nargin >= 2 % default constructor has same signature, sigh
                 
@@ -29,14 +27,6 @@ classdef Mesh < handle
             
             if nargin >= 3
                 obj.jacobian = j;
-            end
-            
-            if nargin >= 4
-                obj.permittivity = permittivity;
-            end
-            
-            if nargin >= 5
-                obj.permeability = permeability;
             end
         end
         

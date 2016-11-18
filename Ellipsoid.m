@@ -2,8 +2,7 @@
 %
 % Constructor example: create a sphere
 %
-% s = Ellipsoid(@(p) [0 0 0 1 1 1], 'NumThetas', 10, 'NumPhis', 10, ...
-%   'Permittivity', 'Air', 'Permeability', 'Air');
+% s = Ellipsoid(@(p) [0 0 0 1 1 1], 'NumThetas', 10, 'NumPhis', 10);
 %
 
 classdef Ellipsoid < dmodel.Node
@@ -14,8 +13,6 @@ classdef Ellipsoid < dmodel.Node
         bounds = @(params) [0 0 0 1 1 1]';
         centerFunc = @(params) [0 0 0]';
         radiusFunc = @(params) [1 1 1]';
-        permittivity = 'none';
-        permeability = 'none';
     end
     
     methods
@@ -24,8 +21,6 @@ classdef Ellipsoid < dmodel.Node
             if nargin > 0
                 X.NumThetas = 10;
                 X.NumPhis = 10;
-                X.Permittivity = '';
-                X.Permeability = '';
                 X = parseargs(X, varargin{:});
                 
                 if X.NumThetas < 3
@@ -36,8 +31,6 @@ classdef Ellipsoid < dmodel.Node
                     error('NumPhis must be at least 3');
                 end
                 
-                obj.permittivity = X.Permittivity;
-                obj.permeability = X.Permeability;
                 obj.numThetas = X.NumThetas;
                 obj.numPhis = X.NumPhis;
                 obj.bounds = @(p) transpose(bounds(p));
@@ -140,7 +133,7 @@ classdef Ellipsoid < dmodel.Node
             
             faces = [topFaces; sideFaces; bottomFaces];
             
-            m = { Mesh(myVerts, faces, myJacobian, obj.permittivity, obj.permeability) };
+            m = { Mesh(myVerts, faces, myJacobian) };
         end
     end % methods
 end

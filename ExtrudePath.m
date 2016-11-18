@@ -4,8 +4,6 @@ classdef ExtrudePath < dmodel.Node
 % Usage: ExtrudePath(named parameters)
 %
 % Named parameters:
-%   Permittivity
-%   Permeability
 %   Path                function f(p,t) returning row vectors [x y z]
 %   X                   function f(p) returning x coords of cross-section
 %   Y                   function f(p) returning y coords of cross-section
@@ -14,8 +12,6 @@ classdef ExtrudePath < dmodel.Node
 %   Closed              if true, makes an oroborus
     
     properties
-        permittivity = 'none';
-        permeability = 'none';
         xFunc = [];
         yFunc = [];
         pathFunc = [];  % map [0 1] to [x y z]
@@ -31,8 +27,6 @@ classdef ExtrudePath < dmodel.Node
             
             X.X = [];
             X.Y = [];
-            X.Permittivity = '';
-            X.Permeability = '';
             X.Path = [];
             X.U = [];
             X.V = [];
@@ -59,8 +53,6 @@ classdef ExtrudePath < dmodel.Node
                 error('V must be a function handle');
             end
             
-            obj.permittivity = X.Permittivity;
-            obj.permeability = X.Permeability;
             obj.xFunc = X.X;
             obj.yFunc = X.Y;
             obj.pathFunc = X.Path;
@@ -233,8 +225,7 @@ classdef ExtrudePath < dmodel.Node
             
             myJacobian = jacobian(vertFunc, params);
             
-            m = { Mesh(myVerts, myFaces, myJacobian, obj.permittivity, ...
-                obj.permeability) };
+            m = { Mesh(myVerts, myFaces, myJacobian) };
         end
         
         

@@ -9,8 +9,6 @@ classdef Rect < dmodel.Node
 % 
     properties
         func = @(params) [0 0 0 1 1 1]';
-        permittivity = 'none';
-        permeability = 'none';
     end
     
     methods
@@ -19,12 +17,7 @@ classdef Rect < dmodel.Node
             if nargin > 0
                 obj.func = func;
                 
-                X.Permittivity = '';
-                X.Permeability = '';
-                X = parseargs(X, varargin{:});
-                
-                obj.permittivity = X.Permittivity;
-                obj.permeability = X.Permeability;
+                %X = parseargs(X, varargin{:});
             end
         end
         

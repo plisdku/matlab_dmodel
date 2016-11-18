@@ -4,8 +4,6 @@ classdef FreeMesh < dmodel.Node
         vertices = [];
         faces = [];
         freeDirections = [];
-        permittivity = 'none';
-        permeability = 'none';
         matrix = [];
     end
     
@@ -18,12 +16,8 @@ classdef FreeMesh < dmodel.Node
                 X.FreeDirections = [];
                 X.Matrix = [];
                 X.Faces = [];
-                X.Permittivity = [];
-                X.Permeability = [];
                 X = parseargs(X, varargin{:});
                 
-                obj.permittivity = X.Permittivity;
-                obj.permeability = X.Permeability;
                 obj.vertices = X.Vertices;
                 obj.matrix = X.Matrix;
                 
@@ -58,8 +52,7 @@ classdef FreeMesh < dmodel.Node
                 [myVerts, ~, myJacobian] = obj.defaultMesh(params);
             end
             
-            m = { Mesh(myVerts, obj.faces, myJacobian, obj.permittivity, ...
-                obj.permeability) };
+            m = { Mesh(myVerts, obj.faces, myJacobian) };
             
         end
         

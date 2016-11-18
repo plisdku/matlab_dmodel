@@ -15,19 +15,11 @@
 %                   'Vertices' argument will be extruded vertically from
 %                   z=z0 to z=z1.
 %
-%   Permittivity:   name of the permittivity model representing this
-%                   material
-%
-%   Permeability:   name of the permeability model representing this
-%                   material
-%
 classdef Extrude < dmodel.Node
     
     properties
         vertXFunc = @(p) [];
         vertYFunc = @(p) [];
-        permittivity = 'none';
-        permeability = 'none';
         zFunc = [];
     end
     
@@ -38,14 +30,11 @@ classdef Extrude < dmodel.Node
         % points should be a function that provides an Nx2 array of x-y
         % coordinates of points.  Yeah!  All right!
         %
-        % Extrude('Vertices', @(p) [0 0; 1 0; 0 1], 'Z', @(p) [0 1]', ...
-        %   'Permittivity', 'Air', 'Permeability', 'Air');
+        % Extrude('Vertices', @(p) [0 0; 1 0; 0 1], 'Z', @(p) [0 1]');
         function obj = Extrude(varargin)
             if nargin > 0
                 
                 X.Vertices = [];
-                X.Permittivity = '';
-                X.Permeability = '';
                 X.Z = [];
                 X = parseargs(X, varargin{:});
                 
@@ -56,8 +45,6 @@ classdef Extrude < dmodel.Node
                     error('Z must be a function handle');
                 end
                 
-                obj.permittivity = X.Permittivity;
-                obj.permeability = X.Permeability;
                 obj.zFunc = X.Z;
                 
                 firstCol = @(A) A(:,1);
@@ -142,8 +129,7 @@ classdef Extrude < dmodel.Node
             
             faces = [botTris; topTris; sideTrisBot; sideTrisTop];
             
-            m = { Mesh(myVerts, faces, myJacobian, obj.permittivity,...
-                obj.permeability) };
+            m = { Mesh(myVerts, faces, myJacobian) };
         end
         
     end

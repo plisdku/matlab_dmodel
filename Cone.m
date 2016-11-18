@@ -5,7 +5,7 @@ classdef Cone < dmodel.Node
 %
 % c = Cone('BaseX', @(p) [0 1 1 0], 'BaseY', @(p) [0 0 1 1], ...
 %       'BaseZ', @(p) 0, 'TipX', @(p) 0.5, 'TipY', @(p) 0.5, ...
-%       'TipZ', @(p) 1, 'Permittivity', 'Air', 'Permeability', 'Air');
+%       'TipZ', @(p) 1);
 
     properties
         baseX = @(p) 0;
@@ -14,8 +14,6 @@ classdef Cone < dmodel.Node
         tipX = @(p) 0;
         tipY = @(p) 0;
         tipZ = @(p) 0;
-        permittivity = 'none';
-        permeability = 'none';
     end
     
     
@@ -29,12 +27,8 @@ classdef Cone < dmodel.Node
             X.TipX = [];
             X.TipY = [];
             X.TipZ = [];
-            X.Permittivity = '';
-            X.Permeability = '';
             X = parseargs(X, varargin{:});
             
-            obj.permittivity = X.Permittivity;
-            obj.permeability = X.Permeability;
             obj.baseX = X.BaseX;
             obj.baseY = X.BaseY;
             obj.baseZ = X.BaseZ;
@@ -102,8 +96,7 @@ classdef Cone < dmodel.Node
             
             faces = [faces; fliplr(tris)];
             
-            m = { Mesh(myVerts, faces, myJacobian, obj.permittivity, ...
-                obj.permeability) };
+            m = { Mesh(myVerts, faces, myJacobian) };
         end
     
     end

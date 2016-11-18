@@ -2,8 +2,7 @@
 %
 % Constructor example: create a triangle
 %
-% c = Cylinder(@(p) [0 0 0 1 1 1], 'NumSides', 3, ...
-%   'Permittivity', 'Air', 'Permeability', 'Air');
+% c = Cylinder(@(p) [0 0 0 1 1 1], 'NumSides', 3);
 %
 classdef Cylinder < dmodel.Node
     
@@ -12,8 +11,6 @@ classdef Cylinder < dmodel.Node
         bounds = @(params) [0 0 0 1 1 1]';
         centerFunc = @(params) [0 0 0]';
         radiusFunc = @(params) [1 1 1]';
-        permittivity = 'none';
-        permeability = 'none';
     end
     
     methods
@@ -26,8 +23,6 @@ classdef Cylinder < dmodel.Node
                 X.Permeability = '';
                 X = parseargs(X, varargin{:});
                 
-                obj.permittivity = X.Permittivity;
-                obj.permeability = X.Permeability;
                 obj.numSides = X.NumSides;
                 obj.bounds = @(p) transpose(bounds(p));
                 
@@ -136,8 +131,7 @@ classdef Cylinder < dmodel.Node
             faces(firstFace:lastFace, 2) = (2:(obj.numSides-1)) + obj.numSides;
             faces(firstFace:lastFace, 3) = (3:obj.numSides) + obj.numSides;
             
-            m = { Mesh(myVerts, faces, myJacobian, obj.permittivity,...
-                obj.permeability) };
+            m = { Mesh(myVerts, faces, myJacobian) };
         end
         
     end

@@ -2,15 +2,13 @@
 %
 % Usage:
 %   h = Heightmap('X', @(p) linspace(0,1), 'Y', @(p) linspace(0,1), ...
-%       'Z', @(p) peaks(100), 'Zbot', @(p) -1, ...
-%       'Permittivity', 'Air', 'Permeability', 'Air');
+%       'Z', @(p) peaks(100), 'Zbot', @(p) -1);
 % 
 % Named parameters:
 %       X   Function returning ascending array of x coordinates
 %       Y   Function returning ascending array of y coordinates
 %       Z   Function returning height of surface over each point, indexed (x,y)
 %       Zbot Function returning the z coordinate of the bottom of the heightmap
-%       Permittivity, Permeability  Names of material models to apply
 %
 % Heightmaps are always oriented such that "up" is the +z direction.  Use a
 % Rotate object to re-orient them to other directions.
@@ -23,9 +21,7 @@
 classdef Heightmap < dmodel.Node
     
     
-    properties 
-        permittivity = '';
-        permeability = '';
+    properties
         xFunc = @(p) 1;
         yFunc = @(p) 1;
         zFunc = @(p) 1;
@@ -46,8 +42,6 @@ classdef Heightmap < dmodel.Node
                 X.Permeability = '';
                 X = parseargs(X, varargin{:});
                 
-                obj.permittivity = X.Permittivity;
-                obj.permeability = X.Permeability;
                 obj.xFunc = X.X;
                 obj.yFunc = X.Y;
                 obj.zFunc = X.Z;
@@ -170,8 +164,7 @@ classdef Heightmap < dmodel.Node
             vFunc = @(p) obj.vertices(p);
             myJacobian = jacobian(vFunc, params);
             
-            m = { Mesh(v, f, myJacobian, obj.permittivity, ...
-                obj.permeability) };
+            m = { Mesh(v, f, myJacobian) };
         end
         
         
