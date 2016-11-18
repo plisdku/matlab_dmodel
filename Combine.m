@@ -49,7 +49,7 @@ classdef Combine < dmodel.Node
                             'have overlapping bounding boxes'], mm, nn);
                     end
                 end
-                endS
+            end
             
             % 4. Concatenate all the vertices, faces and jacobians.
             allVertices = zeros(numVerts*3, 1);
