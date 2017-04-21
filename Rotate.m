@@ -30,6 +30,11 @@ classdef Rotate < dmodel.Node
             
             m = {};
             
+            myMatrix = obj.matrix(params);
+            if det(myMatrix) <= 0
+                error('Rotation matrix has nonpositive determinant');
+            end
+            
             for cc = 1:length(obj.children)
                 childMeshes = obj.children{cc}.meshes(params);
                 for mm = 1:length(childMeshes)
