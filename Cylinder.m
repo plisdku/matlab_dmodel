@@ -19,8 +19,6 @@ classdef Cylinder < dmodel.Node
             if nargin > 0
                 
                 X.NumSides = 3;
-                X.Permittivity = '';
-                X.Permeability = '';
                 X = parseargs(X, varargin{:});
                 
                 obj.numSides = X.NumSides;

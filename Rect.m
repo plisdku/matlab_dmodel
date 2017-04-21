@@ -3,7 +3,7 @@ classdef Rect < dmodel.Node
 % 
 % Constructor example:
 %
-% r = Rect(@(p) [0 0 0 1 1 1], 'Permittivity', 'Air');
+% r = Rect(@(p) [0 0 0 1 1 1])
 %
 % The bounding box should be a column vector.
 % 

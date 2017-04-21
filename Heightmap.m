@@ -38,8 +38,6 @@ classdef Heightmap < dmodel.Node
                 X.Y = [];
                 X.Z = [];
                 X.ZBot = [];
-                X.Permittivity = '';
-                X.Permeability = '';
                 X = parseargs(X, varargin{:});
                 
                 obj.xFunc = X.X;

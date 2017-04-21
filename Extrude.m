@@ -2,8 +2,7 @@
 %
 % Usage:
 %
-% ex = Extrude('Vertices', xyVertFunc, 'Z', heightFunc, 'Permittivity',
-%   epsString);
+% ex = Extrude('Vertices', xyVertFunc, 'Z', heightFunc)
 %
 %   xyVertFunc:     function of parameter vector, returning x coordinates
 %                   in the first column and y coordinates in the second
