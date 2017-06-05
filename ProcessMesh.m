@@ -22,8 +22,6 @@ classdef ProcessMesh < dmodel.Node
             obj.creases = creases;
             obj.refineVertices = refineVertices;
             obj.instructions = varargin;
-            obj.permittivity = child.permittivity;
-            obj.permeability = child.permeability;
         end
         
         function [m, T_total] = meshes(obj, varargin)
@@ -189,8 +187,7 @@ classdef ProcessMesh < dmodel.Node
             myVertices(2:3:end) = vertices(:,2);
             myVertices(3:3:end) = vertices(:,3);
             
-            m = { dmodel.Mesh(myVertices, myFaces, myJacobian, ...
-                obj.permittivity, obj.permeability) };
+            m = { dmodel.Mesh(myVertices, myFaces, myJacobian) };
             
         end
         
